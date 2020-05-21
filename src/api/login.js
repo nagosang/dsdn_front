@@ -6,9 +6,8 @@ import request from '@/utils/request'
 
 export function Login(data) {
   return request({
-    url: '/login',
+    url: '/login?userId='+ data.userId + '&password='+ data.password,
     method: 'post',
-    data
   })
 }
   

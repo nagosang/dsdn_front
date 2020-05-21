@@ -30,12 +30,12 @@
             </el-col>
 
             <el-col :span="12">
-              <div v-if="haveLogin()">
+              <div v-if="ifLogin">
                 <el-button icon="el-icon-bell" circle></el-button>
                 <el-button icon="el-icon-edit" circle></el-button>
               </div>
               <div v-else>
-                <el-button type="success">登录</el-button>
+                <el-button type="success" @click="dialogVisible = true">登录</el-button>
                 <el-button type="warning">注册</el-button>
               </div>
             </el-col>
@@ -44,19 +44,70 @@
       </el-row>
     </div>
     <router-view/>
+
+    <el-dialog
+      title="登录HSDN"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form ref="loginForm" :model="loginForm" label-width="80px">
+        <el-form-item label="用户名">
+          <el-input v-model="loginForm.username"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码">
+          <el-input v-model="loginForm.password" type="password"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleLogin()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
+import { Login } from '@/api/login'
 export default {
   data() {
     return {
       input: '',
+
+      ifLogin: false,
+
+      dialogVisible: false,
+      loginForm:{
+        username:'',
+        password:''
+      }
     }
   },
 
   methods:{
-    haveLogin() {
-      return false;
+    // haveLogin() {
+    //   return false;
+    // },
+
+    handleLogin() {
+      var text = '{"userId":"'+this.loginForm.username+'","password":"'+this.loginForm.password+'"}'
+      var data = JSON.parse(text)
+      console.log(data)
+      Login(data).then(res => {
+        console.log(res)
+        if(res.status == 200) {
+          this.$message({
+            message: '登录成功',
+            type: 'success'
+          });
+          this.dialogVisible=false;
+          this.ifLogin = true;
+        }
+        else {
+          this.$message({
+            message:res.msg || '未知错误',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }

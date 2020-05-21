@@ -82,7 +82,7 @@ export default {
       title3: 'test',
       content3: 'test content',
       fit:'cover',
-      url:'color.jpg'
+      url:require('@/assets/test.jpg')
     }
   },
   created(){
