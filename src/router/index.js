@@ -20,6 +20,12 @@ const routes = [
     path: '/download',
     name: 'Download',
     component: () => import('@/views/Download/index')
+  },
+
+  {
+    path: '/writeBlog',
+    name: 'WriteBlog',
+    component: () => import('@/views/WriteBlog/index')
   }
 ];
 

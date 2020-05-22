@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <el-row id="nav">
       <el-row class="nav_bar">
         <el-col :span="2">
           <H2 id="hsdn">HSDN</H2>
@@ -8,7 +8,7 @@
 
         <el-col :span="14">
           <el-menu
-          default-active="/"
+          :default-active="defaultActive"
           class="el-menu-demo"
           mode="horizontal"
           router
@@ -22,17 +22,17 @@
         </el-col>
 
         <el-col :span="8">
-          <el-row>
+          <el-row style="padding:10px 0;">
             <el-col :span="12">
               <el-input placeholder="请输入内容" v-model="input">
                 <el-button slot="append" icon="el-icon-search"></el-button>
               </el-input>
             </el-col>
 
-            <el-col :span="12">
+            <el-col :span="12" >
               <div v-if="ifLogin">
                 <el-button icon="el-icon-bell" circle></el-button>
-                <el-button icon="el-icon-edit" circle></el-button>
+                <el-button icon="el-icon-edit" circle @click="toWriteBlog()"></el-button>
               </div>
               <div v-else>
                 <el-button type="success" @click="dialogVisible = true">登录</el-button>
@@ -42,8 +42,11 @@
           </el-row>
         </el-col>
       </el-row>
-    </div>
-    <router-view/>
+    </el-row>
+    
+    <el-row>
+      <router-view/>
+    </el-row>
 
     <el-dialog
       title="登录HSDN"
@@ -60,21 +63,25 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleLogin()">确 定</el-button>
+        <el-button type="primary" @click="handleLogin()" :loading="confirmLoading">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
 import { Login } from '@/api/login'
+import { getToken, setToken } from '@/utils/token'
 export default {
   data() {
     return {
+      defaultActive: '/',
+
       input: '',
 
       ifLogin: false,
 
       dialogVisible: false,
+      confirmLoading: false,
       loginForm:{
         username:'',
         password:''
@@ -82,15 +89,26 @@ export default {
     }
   },
 
+  created(){
+    if(getToken() != undefined){
+      this.ifLogin = true;
+    }
+    else{
+      this.ifLogin = true;
+    }
+  },
+
   methods:{
-    // haveLogin() {
-    //   return false;
-    // },
+    toWriteBlog() {
+      this.defaultActive='/writeBlog'
+      this.$router.push({ path: '/writeBlog' })
+    },
 
     handleLogin() {
       var text = '{"userId":"'+this.loginForm.username+'","password":"'+this.loginForm.password+'"}'
       var data = JSON.parse(text)
       console.log(data)
+      this.confirmLoading = true;
       Login(data).then(res => {
         console.log(res)
         if(res.status == 200) {
@@ -100,6 +118,7 @@ export default {
           });
           this.dialogVisible=false;
           this.ifLogin = true;
+          setToken(this.loginForm.username);
         }
         else {
           this.$message({
@@ -108,6 +127,7 @@ export default {
           })
         }
       })
+      this.confirmLoading =  false
     }
   }
 }
@@ -135,6 +155,7 @@ export default {
 
 .nav_bar{
   text-align: center;
+  height: 60px;
   background-color: rgba(31, 46, 63, 1);
   color: white;
   padding: auto;
