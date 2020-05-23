@@ -23,6 +23,18 @@ const routes = [
   },
 
   {
+    path: '/examine',
+    name: 'Examine',
+    component: () => import('@/views/Examine/index')
+  },
+
+  {
+    path: '/notice',
+    name: 'Notice',
+    component: () => import('@/views/Notice/index')
+  },
+
+  {
     path: '/writeBlog',
     name: 'WriteBlog',
     component: () => import('@/views/WriteBlog/index')

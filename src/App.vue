@@ -18,6 +18,8 @@
             <el-menu-item index="/">首页</el-menu-item>
             <el-menu-item index="/blog">博文</el-menu-item>
             <el-menu-item index="/download">下载</el-menu-item>
+            <el-menu-item index="/examine" v-if="isAdmin">审核</el-menu-item>
+            <el-menu-item index="/notice" v-if="isAdmin">公告</el-menu-item>
           </el-menu>
         </el-col>
 
@@ -70,10 +72,12 @@
 </template>
 <script>
 import { Login } from '@/api/login'
-import { getToken, setToken } from '@/utils/token'
+import { getToken, setToken, getIdentityToken, setIdentityToken } from '@/utils/token'
 export default {
   data() {
     return {
+      isAdmin: false,
+
       defaultActive: '/',
 
       input: '',
@@ -94,7 +98,12 @@ export default {
       this.ifLogin = true;
     }
     else{
-      this.ifLogin = true;
+      // this.ifLogin = true; // 测试用
+      this.ifLogin = false; //正式
+    }
+
+    if(getIdentityToken() != undefined){
+      this.isAdmin = getIdentityToken();
     }
   },
 
@@ -119,6 +128,8 @@ export default {
           this.dialogVisible=false;
           this.ifLogin = true;
           setToken(this.loginForm.username);
+          setIdentityToken(res.data.type)
+          this.isAdmin = res.data.type;
         }
         else {
           this.$message({
