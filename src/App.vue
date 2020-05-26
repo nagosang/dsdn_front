@@ -65,7 +65,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleLogin()" :loading="confirmLoading">确 定</el-button>
+        <el-button type="primary" @click="handleLogin()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -85,11 +85,16 @@ export default {
       ifLogin: false,
 
       dialogVisible: false,
-      confirmLoading: false,
       loginForm:{
         username:'',
         password:''
       }
+    }
+  },
+
+  watch:{
+    $route(now,before){
+      this.defaultActive = now.path
     }
   },
 

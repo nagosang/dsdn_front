@@ -19,57 +19,52 @@
     
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-card shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{ title1 }}</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-          </div>
-          <div>
-            <el-image
-            style="height: 150px"
-            :src="url"
-            :fit="fit"></el-image>
-            <span>{{ content1 }}</span>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <el-card shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{ title2 }}</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-          </div>
-          <div>
-            <el-image
-            style="height: 150px"
-            :src="url"
-            :fit="fit"></el-image>
-            <span>{{ content2 }}</span>
-        </div>
-        </el-card>
+        <el-badge :value="praise1" class="item">
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <span>{{ title1 }}</span>
+              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+            </div>
+            <div>
+              <span>{{ content1 }}</span>
+            </div>
+          </el-card>
+        </el-badge>
       </el-col>
 
       <el-col :span="8">
-        <el-card shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>{{ title3 }}</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+        <el-badge :value="praise2" class="item">
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <span>{{ title2 }}</span>
+              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+            </div>
+            <div>
+              <span>{{ content2 }}</span>
           </div>
-          <div>
-              <el-image
-              style="height: 150px"
-              :src="url"
-              :fit="fit"></el-image>
-              <span>{{ content3 }}</span>
-          </div>
-        </el-card>
+          </el-card>
+        </el-badge>
+      </el-col>
+
+      <el-col :span="8">
+        <el-badge :value="praise3" class="item">
+          <el-card shadow="hover" class="box-card">
+            <div slot="header" class="clearfix">
+              <span>{{ title3 }}</span>
+              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+            </div>
+            <div>
+                <span>{{ content3 }}</span>
+            </div>
+          </el-card>
+        </el-badge>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { Login } from '@/api/login'
+import { getMost3 } from '@/api/blog'
 
 export default {
   name: 'Home',
@@ -77,18 +72,47 @@ export default {
     return{
       title1: 'test',
       content1: 'test content',
+      praise1: 0,
       title2: 'test',
       content2: 'test content',
+      praise2: 0,
       title3: 'test',
       content3: 'test content',
+      praise3: 0,
       fit:'cover',
       url:require('@/assets/test.jpg')
     }
   },
   created(){
+    getMost3().then(res => {
+      if(res.status == 200){
+        this.title1 = res.data[0].title
+        this.content1 = res.data[0].content
+        this.praise1 = res.data[0].praiseCount
+        
+        this.title2 = res.data[1].title
+        this.content2 = res.data[1].content
+        this.praise2 = res.data[1].praiseCount
+
+        this.title3 = res.data[2].title
+        this.content3 = res.data[2].content
+        this.praise3 = res.data[2].praiseCount
+      }
+    })
   },
   methods:{
 
   }
 };
 </script>
+<style>
+  .box-card {
+    height: 200px;
+  }
+
+  .item {
+    width: 100%;
+    margin-top: 10px;
+    margin-right: 40px;
+  }
+</style>
