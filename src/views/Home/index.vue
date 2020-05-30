@@ -23,7 +23,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title1 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId1)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content1 }}</span>
@@ -37,7 +37,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title2 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId2)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content2 }}</span>
@@ -51,7 +51,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title3 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId3)">阅读全文</el-button>
             </div>
             <div>
                 <span>{{ content3 }}</span>
@@ -70,12 +70,15 @@ export default {
   name: 'Home',
   data(){
     return{
+      blogId1: '',
       title1: 'test',
       content1: 'test content',
       praise1: 0,
+      blogId2: '',
       title2: 'test',
       content2: 'test content',
       praise2: 0,
+      blogId3: '',
       title3: 'test',
       content3: 'test content',
       praise3: 0,
@@ -86,14 +89,17 @@ export default {
   created(){
     getMost3().then(res => {
       if(res.status == 200){
+        this.blogId1 = res.data[0].blogId
         this.title1 = res.data[0].title
         this.content1 = res.data[0].content
         this.praise1 = res.data[0].praiseCount
         
+        this.blogId2 = res.data[1].blogId
         this.title2 = res.data[1].title
         this.content2 = res.data[1].content
         this.praise2 = res.data[1].praiseCount
 
+        this.blogId3 = res.data[2].blogId
         this.title3 = res.data[2].title
         this.content3 = res.data[2].content
         this.praise3 = res.data[2].praiseCount
@@ -101,7 +107,11 @@ export default {
     })
   },
   methods:{
-
+    readBlog(blogId){
+      this.$router.push({
+        path: '/readBlog/'+blogId
+      })
+    }
   }
 };
 </script>

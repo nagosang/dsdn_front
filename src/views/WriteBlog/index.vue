@@ -81,6 +81,9 @@ export default {
                 type: 'success',
                 message: '发布成功!'
               });
+              this.$router.push({
+                path: '/readBlog/'+blogId
+              })
             }
             else{
               this.$message({

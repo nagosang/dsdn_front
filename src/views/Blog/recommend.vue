@@ -15,7 +15,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title1 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId1)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content1 }}</span>
@@ -29,7 +29,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title2 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId2)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content2 }}</span>
@@ -43,7 +43,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title3 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId3)">阅读全文</el-button>
             </div>
             <div>
                 <span>{{ content3 }}</span>
@@ -68,7 +68,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title4 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId1)">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId4)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content4 }}</span>
@@ -82,7 +82,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title5 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId5)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content5 }}</span>
@@ -96,7 +96,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title6 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId6)">阅读全文</el-button>
             </div>
             <div>
                 <span>{{ content6 }}</span>
@@ -121,7 +121,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title7 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId7)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content7 }}</span>
@@ -135,7 +135,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title8 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId8)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content8 }}</span>
@@ -149,7 +149,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title9 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId9)">阅读全文</el-button>
             </div>
             <div>
                 <span>{{ content9 }}</span>
@@ -287,6 +287,12 @@ export default {
   methods: {
     goToArea(area){
       this.$emit('go_to_area', area)
+    },
+
+    readBlog(blogId){
+      this.$router.push({
+        path: '/readBlog/'+blogId
+      })
     }
   }
 }

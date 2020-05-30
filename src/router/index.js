@@ -38,6 +38,12 @@ const routes = [
     path: '/writeBlog',
     name: 'WriteBlog',
     component: () => import('@/views/WriteBlog/index')
+  },
+
+  {
+    path: '/readBlog/:id',
+    name: 'ReadBlog',
+    component: () => import('@/views/ReadBlog/index')
   }
 ];
 

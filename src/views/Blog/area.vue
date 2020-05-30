@@ -7,15 +7,25 @@
 
     <el-row>
       <el-col :span="24">
-        <el-card v-for="(item,i) in list" :key="i">
+        <el-card v-for="(item,i) in blogList" :key="i" class="box-card">
           <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            <span>{{ item.title }}</span>
+            <el-button style="float: right; padding: 3px 0" type="text"  @click="readBlog(item.blogId)">阅读全文</el-button>
           </div>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{'列表内容 ' + o }}
+          <div>
+            {{ item.content }}
           </div>
         </el-card>
+      </el-col>
+
+      <el-col :span="24" class="page">
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getList"
+        />
       </el-col>
     </el-row>
 
@@ -27,14 +37,25 @@
 </template>
 
 <script>
+import Pagination from '@/components/Pagination'
+import { pageBlogByType } from '@/api/blog'
 export default {
   name: 'Area',
   props: ['message'],
 
+  components: { Pagination },
+
   data(){
     return{
       title: 'test',
+      listQuery: {
+        page: 1,
+        limit: 10
+      },
 
+      blogList:[],
+
+      total: 100,
       list:[1,2,3,4,5,6]
     }
   },
@@ -49,12 +70,37 @@ export default {
     else{
       this.title = '分区3'
     }
-    console.log(this.message)
+
+    this.getList()
   },
 
   methods: {
     goBack() {
       this.$emit('go_back')
+    },
+
+    getList(){
+      var text = '{"page":"'+this.listQuery.page+'","size":"'+this.listQuery.limit+'","type":"' + this.message + '"}'
+      var data = JSON.parse(text)
+      pageBlogByType(data).then(res => {
+        console.log(res)
+        if(res.status == 200){
+          this.total = res.totalCount
+          this.blogList = res.data
+        }
+        else{
+          this.$message({
+            message: response.msg || '未知错误',
+            type: 'warning'
+          });
+        }
+      })
+    },
+
+    readBlog(blogId){
+      this.$router.push({
+        path: '/readBlog/'+blogId
+      })
     }
   }
 }
@@ -63,5 +109,14 @@ export default {
 <style>
   .head{
     margin: 10px;
+  }
+
+  .page{
+    text-align: center;
+    margin: 20px;
+  }
+
+  .box-card {
+    height: 200px;
   }
 </style>

@@ -7,7 +7,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title1 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId1)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content1 }}</span>
@@ -21,7 +21,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title2 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId2)">阅读全文</el-button>
             </div>
             <div>
               <span>{{ content2 }}</span>
@@ -35,7 +35,7 @@
           <el-card shadow="hover" class="box-card">
             <div slot="header" class="clearfix">
               <span>{{ title3 }}</span>
-              <el-button style="float: right; padding: 3px 0" type="text">阅读全文</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="readBlog(blogId3)">阅读全文</el-button>
             </div>
             <div>
                 <span>{{ content3 }}</span>
@@ -116,6 +116,12 @@ export default {
 
     areaBack() {
       this.component = recommend
+    },
+
+    readBlog(blogId){
+      this.$router.push({
+        path: '/readBlog/'+blogId
+      })
     }
   }
 }
