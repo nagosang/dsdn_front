@@ -17,7 +17,7 @@
           active-text-color="#ffd04b">
             <el-menu-item index="/">首页</el-menu-item>
             <el-menu-item index="/blog">博文</el-menu-item>
-            <el-menu-item index="/download">下载</el-menu-item>
+            <el-menu-item index="/download" v-if="ifLogin">下载</el-menu-item>
             <el-menu-item index="/examine" v-if="isAdmin">审核</el-menu-item>
             <el-menu-item index="/notice" v-if="isAdmin">公告</el-menu-item>
           </el-menu>
@@ -27,13 +27,13 @@
           <el-row style="padding:10px 0;">
             <el-col :span="12">
               <el-input placeholder="请输入内容" v-model="input">
-                <el-button slot="append" icon="el-icon-search"></el-button>
+                <el-button slot="append" icon="el-icon-search" @click="toSearch"></el-button>
               </el-input>
             </el-col>
 
             <el-col :span="12" >
               <div v-if="ifLogin">
-                <el-button icon="el-icon-bell" circle></el-button>
+                <el-button icon="el-icon-bell" circle @click="toMessage()"></el-button>
                 <el-button icon="el-icon-edit" circle @click="toWriteBlog()"></el-button>
               </div>
               <div v-else>
@@ -116,6 +116,18 @@ export default {
     toWriteBlog() {
       this.defaultActive='/writeBlog'
       this.$router.push({ path: '/writeBlog' })
+    },
+
+    toMessage() {
+      this.$router.push({ path: '/message' })
+    },
+
+    toSearch(){
+      if(this.input!=''){
+        this.$router.push({
+        path: '/search/'+this.input
+      })
+      }
     },
 
     handleLogin() {

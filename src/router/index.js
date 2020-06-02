@@ -44,6 +44,18 @@ const routes = [
     path: '/readBlog/:id',
     name: 'ReadBlog',
     component: () => import('@/views/ReadBlog/index')
+  },
+
+  {
+    path: '/message',
+    name: 'Message',
+    component: () => import('@/views/Message/index')
+  },
+
+  {
+    path: '/search/:title',
+    name: 'Search',
+    component: () => import('@/views/Search/index')
   }
 ];
 

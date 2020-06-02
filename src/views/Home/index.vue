@@ -118,6 +118,7 @@ export default {
 <style>
   .box-card {
     height: 200px;
+    text-align: left;
   }
 
   .item {

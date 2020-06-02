@@ -19,19 +19,37 @@
       </el-row>
     </el-row>
     <el-divider>历史公告</el-divider>
+    <el-card v-for="(item,i) in noticeList" :key="i">
+      <span>{{ item.content }}</span>
+    </el-card>
   </div>
 </template>
 
 <script>
-import { insertNotice } from '@/api/notice'
+import { insertNotice, selectNoticeByAdmin } from '@/api/notice'
 import { getToken } from '@/utils/token'
 export default {
   data () {
     return {
-      content: ''
+      content: '',
+
+      noticeList: []
     }
   },
+
+  created(){
+    this.getNotice()
+  },
+
   methods: {
+    getNotice(){
+      selectNoticeByAdmin(getToken()).then(res => {
+        if(res.status == 200){
+          this.noticeList = res.data
+        }
+      })
+    },
+
     saveMD(value,render){
       if(this.content == ''){
         this.$message({
@@ -54,6 +72,7 @@ export default {
                 type: 'success',
                 message: '发布成功!'
               });
+              this.getNotice()
             }
             else{
               this.$message({

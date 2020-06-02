@@ -49,6 +49,30 @@ export function pageBlogByType(data) {
 
 /**
  * 
+ * @param {查询对象} data
+ */
+export function pageBlog(data) {
+  return request({
+    url: '/selectBlogByCondition?pageNow='+ data.page + '&size=' + data.limit,
+    method: 'get'
+  })
+}
+
+/**
+ * 
+ * @param {当前页数} page 
+ * @param {每页条数} limit 
+ * @param {条件} title 
+ */
+export function searchBlog(page,limit,title) {
+  return request({
+    url: '/selectBlogByCondition?pageNow='+ page + '&size=' + limit + '&title=' + title,
+    method: 'get'
+  })
+}
+
+/**
+ * 
  * @param {博文id} Id 
  */
 export function queryOneBlog(Id) {

@@ -10,7 +10,10 @@
           <span>关注：{{ followers }} | 粉丝：{{ noticers }}</span>
           <el-row>
             <el-button icon="el-icon-plus" type="success" v-if="isFollowed == false" @click="follow" round>关注</el-button>
-            <el-button icon="el-icon-check" type="info" v-else round @click="cancelFollow">取消关注</el-button>
+            <div v-else>
+              <el-button icon="el-icon-check" type="info" round @click="cancelFollow">取消关注</el-button>
+              <el-button type="primary" round>发送私信</el-button>
+            </div>
           </el-row>
         </el-card>
       </el-col>
