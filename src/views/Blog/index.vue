@@ -1,6 +1,6 @@
 <template>
   <div class="blog">
-    <h1>全区推荐</h1>
+    <h1 style="color: white;">全区推荐</h1>
     <el-row :gutter="20">
       <el-col :span="8">
         <el-badge :value="praise1" class="item" v-if="blogId1!=''">

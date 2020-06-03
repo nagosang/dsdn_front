@@ -3,7 +3,7 @@
     <!-- 分区1 -->
     <el-row type="flex" class="row" justify="space-between">
       <el-col :span="6">
-        <h1>分区1</h1>
+        <h1 style="color: white;">分区1</h1>
       </el-col>
       <el-col :span="3">
         <el-button round class="btn" @click="goToArea(1)">进入分区</el-button>
@@ -56,7 +56,7 @@
     <!-- 分区2 -->
     <el-row type="flex" class="row" justify="space-between">
       <el-col :span="6">
-        <h1>分区2</h1>
+        <h1 style="color: white;">分区2</h1>
       </el-col>
       <el-col :span="3">
         <el-button round class="btn" @click="goToArea(2)">进入分区</el-button>
@@ -109,7 +109,7 @@
     <!-- 分区3 -->
     <el-row type="flex" class="row" justify="space-between">
       <el-col :span="6">
-        <h1>分区3</h1>
+        <h1 style="color: white;">分区3</h1>
       </el-col>
       <el-col :span="3">
         <el-button round class="btn" @click="goToArea(3)">进入分区</el-button>

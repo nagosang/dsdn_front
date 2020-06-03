@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <el-row>
-      <el-col :span="24" :offset="4">
-        <div class="block" style="width: 1000px; text-align: center;">
+    <el-row type="flex" justify="center">
+        <div class="block" style="width: 80%; text-align: center;">
           <el-carousel height="350px">
           <el-carousel-item v-for="item in 4" :key="item">
             <el-image
@@ -12,10 +11,9 @@
           </el-carousel-item>
           </el-carousel>
         </div>
-      </el-col>
     </el-row>
     
-    <H1>推荐博文</H1>
+    <H1 style="color: white;">推荐博文</H1>
     
     <el-row :gutter="20">
       <el-col :span="8">

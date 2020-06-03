@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <vue-canvas-nest :config="{color:'255,255,255', count: 200}" :el="'#app'"></vue-canvas-nest>
     <el-row id="nav">
       <el-row class="nav_bar">
         <el-col :span="2">
@@ -73,7 +74,9 @@
 <script>
 import { Login } from '@/api/login'
 import { getToken, setToken, getIdentityToken, setIdentityToken } from '@/utils/token'
+import vueCanvasNest from 'vue-canvas-nest'
 export default {
+  components: { vueCanvasNest },
   data() {
     return {
       isAdmin: false,
@@ -110,6 +113,11 @@ export default {
     if(getIdentityToken() != undefined){
       this.isAdmin = getIdentityToken();
     }
+
+  },
+
+  mounted(){
+    document.querySelector('body').setAttribute('style', 'background-color:	#285e8e')
   },
 
   methods:{
@@ -166,6 +174,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  width:100%;
 }
 
 #nav {
