@@ -32,11 +32,21 @@
               </el-input>
             </el-col>
 
-            <el-col :span="12" >
-              <div v-if="ifLogin">
+            <el-col :span="12">
+              <div v-if="ifLogin" class="is-login">
                 <el-button icon="el-icon-bell" circle @click="toMessage()"></el-button>
                 <el-button icon="el-icon-edit" circle @click="toWriteBlog()"></el-button>
+                <el-dropdown @command="handleCommand">
+                  <span class="el-dropdown-link">
+                    <el-avatar :size="40" :src="circleUrl"></el-avatar>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>主页</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </div>
+
               <div v-else>
                 <el-button type="success" @click="dialogVisible = true">登录</el-button>
                 <el-button type="warning">注册</el-button>
@@ -73,12 +83,14 @@
 </template>
 <script>
 import { Login } from '@/api/login'
-import { getToken, setToken, getIdentityToken, setIdentityToken } from '@/utils/token'
+import { getToken, setToken, getIdentityToken, setIdentityToken, removeToken, removeIdentityToken } from '@/utils/token'
 import vueCanvasNest from 'vue-canvas-nest'
 export default {
   components: { vueCanvasNest },
   data() {
     return {
+      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+
       isAdmin: false,
 
       defaultActive: '/',
@@ -133,8 +145,8 @@ export default {
     toSearch(){
       if(this.input!=''){
         this.$router.push({
-        path: '/search/'+this.input
-      })
+          path: '/search/'+this.input
+        })
       }
     },
 
@@ -164,38 +176,58 @@ export default {
         }
       })
       this.confirmLoading =  false
+    },
+
+    handleCommand(command){
+      if (command == 'logout') {
+        removeToken()
+        removeIdentityToken()
+        this.$router.push({
+          path: '/'
+        })
+        this.ifLogin = false
+        this.isAdmin = false
+      }
     }
   }
 }
 </script>
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  width:100%;
-}
-
-#nav {
-  padding: 00px;
-
-  a {
-    font-weight: bold;
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
+    width:100%;
+  }
 
-    &.router-link-exact-active {
-      color: #42b983;
+  #nav {
+    padding: 00px;
+
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+
+      &.router-link-exact-active {
+        color: #42b983;
+      }
     }
   }
-}
 
-.nav_bar{
-  text-align: center;
-  height: 60px;
-  background-color: rgba(31, 46, 63, 1);
-  color: white;
-  padding: auto;
-  margin: auto;
-}
+  .nav_bar{
+    text-align: center;
+    height: 60px;
+    background-color: rgba(31, 46, 63, 1);
+    color: white;
+    padding: auto;
+    margin: auto;
+  }
+
+  .el-dd{
+  }
+
+  .is-login{
+    display: flex;
+    justify-content: space-around;
+  }
 </style>
