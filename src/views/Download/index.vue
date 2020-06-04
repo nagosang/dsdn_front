@@ -34,7 +34,7 @@
               size="mini"
               type="primary"
               icon="el-icon-download"
-              @click=""
+              @click="downloadFile(scope.row.fileName)"
             >下载</el-button>
             <el-button
               type="danger"
@@ -159,7 +159,7 @@ export default {
       this.dialogVisible = true
     },
 
-    delFile(fileName){
+    delFile(fileName) {
       deleteFile(fileName).then(res => {
         if(res.status == 200){
           if(res.status == 200){
@@ -177,6 +177,10 @@ export default {
           }
         }
       })
+    },
+
+    downloadFile(fileName) {
+      window.open(window.location.protocol+'//localhost:8081/HSDNBlogResource/images')
     }
   }
 }

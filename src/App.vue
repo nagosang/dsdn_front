@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <vue-canvas-nest :config="{color:'255,255,255', count: 200}" :el="'#app'"></vue-canvas-nest>
+    <vue-canvas-nest :config="{color:'255,255,255', count: 200}"></vue-canvas-nest>
     <el-row id="nav">
       <el-row class="nav_bar">
         <el-col :span="2">
