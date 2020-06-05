@@ -12,7 +12,7 @@
             <el-button icon="el-icon-plus" type="success" v-if="isFollowed == false" @click="follow" round>关注</el-button>
             <div v-else>
               <el-button icon="el-icon-check" type="info" round @click="cancelFollow">取消关注</el-button>
-              <el-button type="primary" round>发送私信</el-button>
+              <el-button type="primary" @click="toSendMessage" round>发送私信</el-button>
             </div>
           </el-row>
         </el-card>
@@ -218,6 +218,10 @@ export default {
 
     cancelFollow(){
 
+    },
+
+    toSendMessage(){
+      this.$router.push({ name: 'Message', params:{ userId: this.authorId } })
     }
   }
 }

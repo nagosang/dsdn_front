@@ -1,8 +1,8 @@
 <template>
   <div class="message">
     <el-card class="box-card-message">
-      <el-tabs class="tab" tab-position="left" type="border-card" @tab-click="toDialog"> 
-        <el-tab-pane label="公告">
+      <el-tabs class="tab" v-model="activeName" tab-position="left" type="border-card" @tab-click="toDialog"> 
+        <el-tab-pane label="公告" name="notice">
           <div class="list">
             <el-scrollbar class="scrollbar">
               <el-card v-for="(item,i) in noticeList" :key="i">
@@ -12,7 +12,7 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane v-for="(item,i) in userList" :key="i" :label="item.nickname">
+        <el-tab-pane v-for="(item,i) in userList" :key="i" :label="item.nickname" :name="item.nickname">
           <div class="list">
             <el-scrollbar class="scrollbar">
               <ul>
@@ -43,10 +43,13 @@
 <script>
 import { selectLetterUserId, selectLetterByBoth, insertLetter } from '@/api/message'
 import { selectAllNotice } from '@/api/notice'
+import { getUserInfo } from '@/api/user'
 import { getToken } from '@/utils/token'
 export default {
   data(){
     return{
+      activeName: 'notice',
+
       noticeList:[],
 
       textarea: '',
@@ -57,7 +60,6 @@ export default {
 
   created(){
     selectAllNotice().then(res => {
-      console.log(res)
       if(res.status == 200){
         this.noticeList = res.data
       }
@@ -66,8 +68,18 @@ export default {
     selectLetterUserId(getToken()).then(res => {
       if(res.status == 200){
         this.userList=res.data
+        // console.log(this.userList)
       }
     })
+
+    if(this.$route.params.userId != undefined) {
+      getUserInfo(this.$route.params.userId).then(res => {
+        if(res.status == 200){
+          this.userList.push(res.data)
+          this.activeName = res.data.nickname
+        }
+      })
+    }
   },
 
   methods:{

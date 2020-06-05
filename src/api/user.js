@@ -33,3 +33,22 @@ export function insertFollow(data) {
     data
   })
 }
+
+/**
+ * 
+ * @param {注册数据} data 
+ */
+export function register(data) {
+  return request({
+    url: '/register',
+    method: 'post',
+    data
+  })
+}
+
+export function getUserInfo(userId) {
+  return request({
+    url: '/getUserInfo?userId=' + userId,
+    method: 'get'
+  })
+}

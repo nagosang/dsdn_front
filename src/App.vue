@@ -49,7 +49,7 @@
 
               <div v-else>
                 <el-button type="success" @click="dialogVisible = true">登录</el-button>
-                <el-button type="warning">注册</el-button>
+                <el-button type="warning" @click="registerVisible = true">注册</el-button>
               </div>
             </el-col>
           </el-row>
@@ -79,11 +79,50 @@
         <el-button type="primary" @click="handleLogin()">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog
+      title="注册HSDN"
+      :visible.sync="registerVisible"
+      width="30%">
+      <el-form ref="loginForm" :model="registerForm" label-width="80px">
+        <el-form-item label="用户名">
+          <el-input v-model="registerForm.userId"></el-input>
+        </el-form-item>
+
+        <el-form-item label="昵称">
+          <el-input v-model="registerForm.nickname"></el-input>
+        </el-form-item>
+
+        <el-form-item label="性别">
+          <el-select v-model="registerForm.sex" placeholder="请选择">
+            <el-option label="男" :value="1"></el-option>
+            <el-option label="女" :value="0"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="手机号">
+          <el-input v-model="registerForm.phoneNumber"></el-input>
+        </el-form-item>
+
+        <el-form-item label="密码">
+          <el-input v-model="registerForm.password" type="password"></el-input>
+        </el-form-item>
+
+        <el-form-item label="重复密码">
+          <el-input v-model="registerForm.repassword" type="password"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="registerVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleRegister()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { Login } from '@/api/login'
 import { getToken, setToken, getIdentityToken, setIdentityToken, removeToken, removeIdentityToken } from '@/utils/token'
+import { register } from '@/api/user'
 import vueCanvasNest from 'vue-canvas-nest'
 export default {
   components: { vueCanvasNest },
@@ -103,6 +142,16 @@ export default {
       loginForm:{
         username:'',
         password:''
+      },
+
+      registerVisible: false,
+      registerForm:{
+        userId: '',
+        nickname: '',
+        sex: 1,
+        phoneNumber:'',
+        password: '',
+        repassword: '',
       }
     }
   },
@@ -139,10 +188,10 @@ export default {
     },
 
     toMessage() {
-      this.$router.push({ path: '/message' })
+      this.$router.push({ name: 'Message' })
     },
 
-    toSearch(){
+    toSearch() {
       if(this.input!=''){
         this.$router.push({
           path: '/search/'+this.input
@@ -176,6 +225,50 @@ export default {
         }
       })
       this.confirmLoading =  false
+    },
+
+    handleRegister() {
+      if(this.registerForm.userId == '' || this.registerForm.nickname == '' || this.registerForm.password == '') {
+        this.$message({
+          message: '用户名密码昵称不能为空',
+          type: 'error'
+        })
+      }
+      else if(this.registerForm.password != this.registerForm.repassword){
+        this.$message({
+          message: '两次输入的密码不一致',
+          type: 'error'
+        })
+      }
+      else{
+        console.log(this.registerForm)
+        var data = new FormData()
+        data.append("userId", this.registerForm.userId)
+        data.append("password", this.registerForm.password)
+        data.append("sex", this.registerForm.sex)
+        data.append("type", 0)
+        if(this.registerForm.phoneNumber!=''){
+          data.append("phoneNumber", this.registerForm.phoneNumber)
+        }
+        register(data).then(res => {
+          if(res.status == 200){
+            this.$message({
+              message: '注册成功',
+              type: 'success'
+            })
+            this.registerVisible = false
+            this.ifLogin = true
+            setToken(this.registerForm.userId)
+            setIdentityToken(false)
+          }
+          else{
+            this.$message({
+              message:res.msg || '未知错误',
+              type: 'error'
+            })
+          }
+        })
+      }
     },
 
     handleCommand(command){
@@ -221,9 +314,6 @@ export default {
     color: white;
     padding: auto;
     margin: auto;
-  }
-
-  .el-dd{
   }
 
   .is-login{
